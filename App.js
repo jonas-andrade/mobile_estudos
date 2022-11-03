@@ -1,20 +1,22 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useFonts, SourceSansPro_900Black, SourceSansPro_700Bold, SourceSansPro_400Regular ,SourceSansPro_600SemiBold } from '@expo-google-fonts/source-sans-pro';
+import * as splash from 'expo-splash-screen';
+import { ThemeProvider } from "styled-components";
+import { theme } from "./src/styles";
+import { Routes } from './src/routes';
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  let [fontsLoaded] = useFonts({
+    SourceSansPro_900Black, 
+    SourceSansPro_700Bold, 
+    SourceSansPro_400Regular,
+    SourceSansPro_600SemiBold
+  }); 
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  splash.preventAutoHideAsync();
+  
+  if (!fontsLoaded) {splash.hideAsync();return null;};
+  return (
+  <ThemeProvider theme={theme}>
+    <Routes />
+  </ThemeProvider>);
+}
